@@ -8,9 +8,14 @@ Here are some scripts that I made so you might have an easier job than me.
 ## Powershell:  "get date from filename and update correct info in json file.ps1"
 
 
-You can use this script to set the correct date in the json file from the Google Photos export.
+You can use this script to set the correct date in the json file from the Google Photos export.<br>
 33000 files takes about 2 minutes to run.
 
+You need to edit the ps1 file and change your media folder (It's at the top of the script).
+
+.
+.
+.
 
 After you have run that fix, you can run the command to put all the json information directly in your media files.
 Here is that command: (you need to change this path, c:\MyExampleMediaFolder)
@@ -35,6 +40,8 @@ You can use this script to set the correct date directly in the media files, usi
 
 This powershell script requires exiftool.exe, you can download it here:
 https://exiftool.org/ (you might need to rename the exe-file)
+
+You need to edit the ps1 file and change your media folder and your exiftool location (They are both at the top of the script).
 
 Here is a list of filenames that I tested on and it fould all the names containing the dates!
 ```
