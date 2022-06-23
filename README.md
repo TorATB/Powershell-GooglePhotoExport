@@ -12,16 +12,23 @@ You can use this script to set the correct date in the json file from the Google
 
 
 After you have run that fix, you can run the command to put all the json information directly in your media files.
-Here is that command: (you need to change this path to your media folder, c:\temp\test3)
+Here is that command: (you need to change this path, c:\MyExampleMediaFolder)
+
+This command will put all the google photo information directly in your mediafiles.
 ```
-exiftool -r -d %s -tagsfromfile "%d/%F.json" "-GPSAltitude<GeoDataAltitude" "-GPSLatitude<GeoDataLatitude" "-GPSLatitudeRef<GeoDataLatitude" "-GPSLongitude<GeoDataLongitude" "-GPSLongitudeRef<GeoDataLongitude" "-Keywords<PeopleName" "-Subject<PeopleName" "-Caption-Abstract<Description" "-ImageDescription<Description" "-DateTimeOriginal<PhotoTakenTimeTimestamp" "-FileCreateDate<PhotoTakenTimeTimestamp" -ext "*" -overwrite_original -progress --ext json "c:\temp\test3"
+exiftool -r -d %s -tagsfromfile "%d/%F.json" "-GPSAltitude<GeoDataAltitude" "-GPSLatitude<GeoDataLatitude" "-GPSLatitudeRef<GeoDataLatitude" "-GPSLongitude<GeoDataLongitude" "-GPSLongitudeRef<GeoDataLongitude" "-Keywords<PeopleName" "-Subject<PeopleName" "-Caption-Abstract<Description" "-ImageDescription<Description" "-DateTimeOriginal<PhotoTakenTimeTimestamp" "-FileCreateDate<PhotoTakenTimeTimestamp" -ext "*" -overwrite_original -progress --ext json "c:\MyExampleMediaFolder"
+```
+
+If you don't want people information in your media files (privacy protection), here is the same command without that part.
+```
+exiftool -r -d %s -tagsfromfile "%d/%F.json" "-GPSAltitude<GeoDataAltitude" "-GPSLatitude<GeoDataLatitude" "-GPSLatitudeRef<GeoDataLatitude" "-GPSLongitude<GeoDataLongitude" "-GPSLongitudeRef<GeoDataLongitude" "-Caption-Abstract<Description" "-ImageDescription<Description" "-DateTimeOriginal<PhotoTakenTimeTimestamp" "-FileCreateDate<PhotoTakenTimeTimestamp" -ext "*" -overwrite_original -progress --ext json "c:\MyExampleMediaFolder"
 ```
 
 
 ## Powershell:  "get date from various filenames.ps1"
 
 
-You can use this script to set the correct date directly in the media files, using exiftool
+You can use this script to set the correct date directly in the media files, using exiftool, no json file involved
 
 This powershell script requires exiftool.exe, you can download it here:
 https://exiftool.org/ (you might need to rename the exe-file)
