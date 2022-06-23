@@ -1,5 +1,5 @@
 ﻿
-$MediaFolder = "C:\Temp\test3\jeje"
+$MediaFolder = "D:\Backup\Cloud\Exported Google Photos - 2022.06.15"
 $MyFiles = Get-ChildItem -Path $MediaFolder -File –Recurse -Exclude *.json,*.db,*.ps1,*.mp4_exiftool_tmp
 
 #Normal date format detecting regex:
@@ -19,8 +19,10 @@ function Get-GoogleDateFormat {
     $MyDate
 }
 
-
+$i=0
+$MyFilesCount = $MyFiles.count
 $MyFiles | ForEach-Object {
+    "["+$i+"/"+$MyFilesCount+"]"
     $MyFullName = $_.FullName
     $MyName = $_.Name
     If ($_.Name -match $regex1) {
@@ -29,35 +31,38 @@ $MyFiles | ForEach-Object {
             $dateFromFileName = [datetime]::ParseExact($date,'yyyyMMdd',[cultureinfo]::InvariantCulture)
             $timestampFromFileName = Get-Date -Date $dateFromFileName -UFormat %s
             $dateFromFileNameString = $dateFromFileName.tostring("yyyy:MM:dd HH:mm:ss")
-            
-            $json = Get-Content "$MyFullName.json"  -encoding utf8 | ConvertFrom-Json
-            $dateFromJson=(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($json.photoTakenTime.Timestamp))
-            $timestampFromJson = Get-Date -Date $dateFromJson -UFormat %s
 
-            #Next level of regex is trying to find if there is a clock time after the date
-            $regex3 = '(?<clocktime>[0-2]\d(?:\.|-|_)?[0-5]\d(?:\.|-|_)?[0-5]\d)'
-            $MyName = $MyName.Replace($date,'')
-            If ($MyName -match $regex3) {
-                $clocktime = ($Matches['clocktime'] -replace '(\.|-|_)','')
-                try {
-                    $dateFromFileName = $dateFromFileName.AddHours($clocktime.Substring(0,2))
-                    $dateFromFileName = $dateFromFileName.AddMinutes($clocktime.Substring(2,2))
-                    $dateFromFileName = $dateFromFileName.AddSeconds($clocktime.Substring(4,2))
-                    #Correcting timeclock if found
-                    $dateFromFileNameString = $dateFromFileName.tostring("yyyy:MM:dd HH:mm:ss")
-                }catch {}
-            }
+            if (Test-Path -Path "$MyFullName.json" -PathType Leaf) {
+                $json = Get-Content "$MyFullName.json"  -encoding utf8 | ConvertFrom-Json
+                $dateFromJson=(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($json.photoTakenTime.Timestamp))
+                $timestampFromJson = Get-Date -Date $dateFromJson -UFormat %s
 
-            if ((($dateFromJson - $dateFromFileName).Days) -ne 0) {
-                $json.photoTakenTime.formatted = Get-GoogleDateFormat $dateFromFileName
-                $json.photoTakenTime.timestamp = $timestampFromFileName
-                $json.creationTime.formatted = Get-GoogleDateFormat $dateFromFileName
-                $json.creationTime.timestamp = $timestampFromFileName
+                #Next level of regex is trying to find if there is a clock time after the date
+                $regex3 = '(?<clocktime>[0-2]\d(?:\.|-|_)?[0-5]\d(?:\.|-|_)?[0-5]\d)'
+                $MyName = $MyName.Replace($date,'')
 
-                #save json-file
-                write-host "Updating jsonfile with correct date : $MyFullName"
-                write-host "Date found from file : $dateFromFileNameString"
-                $json | convertto-json | set-content "$MyFullName.json" -encoding utf8
+                If ($MyName -match $regex3) {
+                    $clocktime = ($Matches['clocktime'] -replace '(\.|-|_)','')
+                    try {
+                        $dateFromFileName = $dateFromFileName.AddHours($clocktime.Substring(0,2))
+                        $dateFromFileName = $dateFromFileName.AddMinutes($clocktime.Substring(2,2))
+                        $dateFromFileName = $dateFromFileName.AddSeconds($clocktime.Substring(4,2))
+                        #Correcting timeclock if found
+                        $dateFromFileNameString = $dateFromFileName.tostring("yyyy:MM:dd HH:mm:ss")
+                    }catch {}
+                }
+
+                if ((($dateFromJson - $dateFromFileName).Days) -ne 0) {
+                    $json.photoTakenTime.formatted = Get-GoogleDateFormat $dateFromFileName
+                    $json.photoTakenTime.timestamp = $timestampFromFileName
+                    $json.creationTime.formatted = Get-GoogleDateFormat $dateFromFileName
+                    $json.creationTime.timestamp = $timestampFromFileName
+
+                    #save json-file
+                    write-host "Updating jsonfile with correct date : $MyFullName"
+                    write-host "Date found from file : $dateFromFileNameString"
+                    $json | convertto-json | set-content "$MyFullName.json" -encoding utf8
+                }
             }
             
         }catch {}
@@ -67,24 +72,27 @@ $MyFiles | ForEach-Object {
             $timestampFromFileName = $date
             $dateFromFileName = (Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($date))
             $dateFromFileNameString = $dateFromFileName.tostring("yyyy:MM:dd HH:mm:ss")
-            
-            $json = Get-Content "$MyFullName.json"  -encoding utf8 | ConvertFrom-Json
-            $dateFromJson=(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($json.photoTakenTime.Timestamp))
-            $timestampFromJson = Get-Date -Date $dateFromJson -UFormat %s
 
-            if ((($dateFromJson - $dateFromFileName).Days) -ne 0) {
-                $json.photoTakenTime.formatted = Get-GoogleDateFormat $dateFromFileName
-                $json.photoTakenTime.timestamp = $timestampFromFileName
-                $json.creationTime.formatted = Get-GoogleDateFormat $dateFromFileName
-                $json.creationTime.timestamp = $timestampFromFileName
+            if (Test-Path -Path "$MyFullName.json" -PathType Leaf) {
+                $json = Get-Content "$MyFullName.json"  -encoding utf8 | ConvertFrom-Json
+                $dateFromJson=(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($json.photoTakenTime.Timestamp))
+                $timestampFromJson = Get-Date -Date $dateFromJson -UFormat %s
 
-                #save json-file
-                write-host "Updating jsonfile with correct date : $MyFullName"
-                write-host "Timestamp converted  : $dateFromFileNameString"
-                $json | convertto-json | set-content "$MyFullName.json" -encoding utf8
+                if ((($dateFromJson - $dateFromFileName).Days) -ne 0) {
+                    $json.photoTakenTime.formatted = Get-GoogleDateFormat $dateFromFileName
+                    $json.photoTakenTime.timestamp = $timestampFromFileName
+                    $json.creationTime.formatted = Get-GoogleDateFormat $dateFromFileName
+                    $json.creationTime.timestamp = $timestampFromFileName
+
+                    #save json-file
+                    write-host "Updating jsonfile with correct date : $MyFullName"
+                    write-host "Timestamp converted  : $dateFromFileNameString"
+                    $json | convertto-json | set-content "$MyFullName.json" -encoding utf8
+                }
             }
         }catch {}
     }
+    $i++
 }
 
 
