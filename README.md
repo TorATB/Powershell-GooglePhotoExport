@@ -15,7 +15,7 @@ You need to edit the ps1 file and change your media folder (It's at the top of t
 
 ...
 
-After you have run that fix, you can run the command to put all the json information directly in your media files.
+After you have run that fix, you can run a CMD prompt (as Administrator) to put all the json information directly in your media files.
 The command requires exiftool.exe, you can download it here:
 https://exiftool.org/ (you might need to rename the exe-file)
 
