@@ -13,11 +13,12 @@ You can use this script to set the correct date in the json file from the Google
 
 You need to edit the ps1 file and change your media folder (It's at the top of the script).
 
-.
-.
-.
+...
 
 After you have run that fix, you can run the command to put all the json information directly in your media files.
+The command requires exiftool.exe, you can download it here:
+https://exiftool.org/ (you might need to rename the exe-file)
+
 Here is that command: (you need to change this path, c:\MyExampleMediaFolder)
 
 This command will put all the google photo information directly in your mediafiles.
