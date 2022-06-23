@@ -25,13 +25,13 @@ This command will put all the google photo information directly in your mediafil
 ```
 exiftool -r -d %s -tagsfromfile "%d/%F.json" "-GPSAltitude<GeoDataAltitude" "-GPSLatitude<GeoDataLatitude" "-GPSLatitudeRef<GeoDataLatitude" "-GPSLongitude<GeoDataLongitude" "-GPSLongitudeRef<GeoDataLongitude" "-Keywords<PeopleName" "-Subject<PeopleName" "-Caption-Abstract<Description" "-ImageDescription<Description" "-DateTimeOriginal<PhotoTakenTimeTimestamp" "-FileCreateDate<PhotoTakenTimeTimestamp" -ext "*" -overwrite_original -progress --ext json "c:\MyExampleMediaFolder"
 ```
-33000 files takes about 30 minutes to run.
+33000 files takes about 60 minutes to run.
 
 If you don't want people information in your media files (privacy protection), here is the same command without that part.
 ```
 exiftool -r -d %s -tagsfromfile "%d/%F.json" "-GPSAltitude<GeoDataAltitude" "-GPSLatitude<GeoDataLatitude" "-GPSLatitudeRef<GeoDataLatitude" "-GPSLongitude<GeoDataLongitude" "-GPSLongitudeRef<GeoDataLongitude" "-Caption-Abstract<Description" "-ImageDescription<Description" "-DateTimeOriginal<PhotoTakenTimeTimestamp" "-FileCreateDate<PhotoTakenTimeTimestamp" -ext "*" -overwrite_original -progress --ext json "c:\MyExampleMediaFolder"
 ```
-33000 files takes about 30 minutes to run.
+33000 files takes about 60 minutes to run.
 
 
 ## Powershell:  "get date from various filenames.ps1"
@@ -70,4 +70,4 @@ VID_20210628_141514.mp4
 VID_20210704_104414.mp4
 VID_20210704_105134.mp4
 ```
-33000 files takes about 30 minutes to run.
+33000 files takes about 60 minutes to run.
