@@ -14,13 +14,14 @@ $MyFiles | ForEach-Object {
     $MyFullName = $_.FullName
     $MyName = $_.Name
     If ($MyName -match $regex1) {
+        $MyMatch = $Matches['filedate1']
         $date = ($Matches['filedate1'] -replace '(\.|-|_)','')
         try {
-            $dateString = $dateFromFileName.tostring("yyyy:MM:dd")
+            $dateFromFileName = [datetime]::ParseExact($date,'yyyyMMdd',[cultureinfo]::InvariantCulture)
 
             #Next level of regex is trying to find if there is a clock time after the date
             $regex3 = '(?<clocktime>[0-2]\d(?:\.|-|_)?[0-5]\d(?:\.|-|_)?[0-5]\d)'
-            $MyName = $MyName.Replace($dateString,'')
+            $MyName = $MyName.Replace($MyMatch,'')
 
             If ($MyName -match $regex3) {
                 $clocktime = ($Matches['clocktime'] -replace '(\.|-|_)','')
@@ -33,10 +34,6 @@ $MyFiles | ForEach-Object {
                 }catch {}
             }
 
-            $date = $dateFromFileName
-            $dateString = $dateFromFileName.tostring("yyyy:MM:dd HH:mm:ss")
-
-
             $arguments = " ""-CreateDate='$dateString'"" ""-DateTimeOriginal='$dateString'"" -overwrite_original ""$MyFullName"""
             "$ExifToolLocation $arguments"
             Start-Process -FilePath $ExifToolLocation -Wait -NoNewWindow -ArgumentList $arguments
@@ -47,7 +44,6 @@ $MyFiles | ForEach-Object {
         try {
             $date = (Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds($date))
             $dateString = $date.ToString()
-
 
             $arguments = " ""-CreateDate='$dateString'"" ""-DateTimeOriginal='$dateString'"" -overwrite_original ""$MyFullName"""
             "$ExifToolLocation $arguments"
