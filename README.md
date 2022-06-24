@@ -13,7 +13,7 @@ You can use this script to set the correct date in the json file from the Google
 
 You need to edit the ps1 file and change your media folder (It's at the top of the script).
 
-Credit to [cduff](https://community.spiceworks.com/people/craigduff) (I used some of his code) at [spiceworks.com](https://community.spiceworks.com/topic/1869414-find-date-in-a-file-name-and-split-it-off)
+Credit to [cduff](https://community.spiceworks.com/people/craigduff) at [spiceworks.com](https://community.spiceworks.com/topic/1869414-find-date-in-a-file-name-and-split-it-off) (I used some of his code)
 
 ...
 
