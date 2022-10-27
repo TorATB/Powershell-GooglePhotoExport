@@ -4,7 +4,6 @@ $MediaFolder = "D:\Backup\Cloud\Xiaomi 12 Pro 2022\Screenshots"
 $ExifToolLocation = "C:\Program Files\exiftool-12.42\exiftool.exe"
 $MyFiles = Get-ChildItem -Path $MediaFolder -File –Recurse -Exclude *.json,*.db,*.ps1,*.mp4_exiftool_tmp
 
-
 #Normal date format detecting regex:
 $regex1 = '(?<filedate1>[0-3]\d{3}(?:\.|-|_)?\d{2}(?:\.|-|_)?\d{2})[^0-9]'
 
